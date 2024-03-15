@@ -1,4 +1,41 @@
-    # Load commit signing SSH Key if not in the agent already
+# PERSONALIZATION
+
+# NAVIGATION KEYBINDS
+# from https://stackoverflow.com/a/29403520/11877756
+
+bindkey "^U" backward-kill-line
+bindkey "^X\\x7f" backward-kill-line
+bindkey "^X^_" redo
+
+# AUTOCOMPLETION
+
+# initialize autocompletion
+autoload -U compinit && compinit
+
+# history setup
+setopt SHARE_HISTORY
+HISTFILE=$HOME/.zhistory
+SAVEHIST=1000
+HISTSIZE=999
+setopt HIST_EXPIRE_DUPS_FIRST
+
+# autocompletion using arrow keys (based on history)
+bindkey '\e[A' history-search-backward
+bindkey '\e[B' history-search-forward
+
+# USER PROMPT
+# https://alldrops.info/posts/cli-drops/2021-07-26_customize-zsh-part-2/
+  
+# enable command-subsitution in PS1 
+setopt PROMPT_SUBST
+  
+NL=$'\n'
+  
+PS1='$NL%B%F{cyan}%3~%f%b$NL%B%(?.%F{green}.%F{red})%(!.#.>)%f%b ' 
+
+
+
+# Load commit signing SSH Key if not in the agent already
     ssh-add -l | grep "+git-commit-signing@datadoghq.com" > /dev/null || ssh-add --apple-use-keychain /Users/kevin.guo/.ssh/datadog_git_commit_signing 2> /dev/null
 export GITLAB_TOKEN=$(security find-generic-password -a ${USER} -s gitlab_token -w)
 # BEGIN ANSIBLE MANAGED BLOCK
