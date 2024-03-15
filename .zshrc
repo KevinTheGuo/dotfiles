@@ -20,8 +20,12 @@ HISTSIZE=999
 setopt HIST_EXPIRE_DUPS_FIRST
 
 # autocompletion using arrow keys (based on history)
-bindkey '\e[A' history-search-backward
-bindkey '\e[B' history-search-forward
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
 
 # USER PROMPT
 # https://alldrops.info/posts/cli-drops/2021-07-26_customize-zsh-part-2/
@@ -101,3 +105,5 @@ export GONOSUMDB=github.com/DataDog,go.ddbuild.io
 export GOPROXY="binaries.ddbuild.io,proxy.golang.org,direct"
 export GONOSUMDB="github.com/DataDog,go.ddbuild.io"
 # END ANSIBLE MANAGED BLOCK
+
+eval "$(direnv hook $SHELL)"
