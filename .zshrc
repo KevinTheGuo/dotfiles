@@ -20,6 +20,7 @@ HISTSIZE=999
 setopt HIST_EXPIRE_DUPS_FIRST
 
 # autocompletion using arrow keys (based on history)
+# from: https://unix.stackexchange.com/a/672892/605661
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -28,7 +29,7 @@ bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 
 # USER PROMPT
-# https://alldrops.info/posts/cli-drops/2021-07-26_customize-zsh-part-2/
+# from: https://alldrops.info/posts/cli-drops/2021-07-26_customize-zsh-part-2/
   
 # enable command-subsitution in PS1 
 setopt PROMPT_SUBST
@@ -38,6 +39,11 @@ NL=$'\n'
 PS1='$NL%B%F{cyan}%3~%f%b$NL%B%(?.%F{green}.%F{red})%(!.#.>)%f%b ' 
 
 
+# go stuff :https://datadoghq.atlassian.net/wiki/spaces/ENG/pages/2291499908/Go
+export GOPATH=$HOME/datadog
+export PATH=$PATH:$GOPATH/bin
+
+# DATADOG SPECIFIC SETUP --------------------------------------------
 
 # Load commit signing SSH Key if not in the agent already
     ssh-add -l | grep "+git-commit-signing@datadoghq.com" > /dev/null || ssh-add --apple-use-keychain /Users/kevin.guo/.ssh/datadog_git_commit_signing 2> /dev/null
@@ -107,3 +113,11 @@ export GONOSUMDB="github.com/DataDog,go.ddbuild.io"
 # END ANSIBLE MANAGED BLOCK
 
 eval "$(direnv hook $SHELL)"
+
+
+
+# more go management?
+export PKG_CONFIG_PATH="$(brew --prefix)/opt/openssl/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="$(brew --prefix)/lib/pkgconfig:$PKG_CONFIG_PATH"
+export CPATH="$(brew --prefix)/include:$CPATH"
+export LIBRARY_PATH="$(brew --prefix)/lib:$LIBRARY_PATH"
